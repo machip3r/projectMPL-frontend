@@ -1,7 +1,12 @@
 <template>
-  <div class="about">
-    <h1>Ruta Protegida</h1>
-    <button @click="logOut()">Cerrar sesión</button>
+  <div class="container">
+    <div class="about1" v-if="error == null">
+      <h1>Ruta Protegida</h1>
+      <button @click="logOut()">Cerrar sesión</button>
+    </div>
+    <div class="about2" v-else>
+      <h1>Ruta No Protegida</h1>
+    </div>
   </div>
 </template>
 
@@ -9,6 +14,11 @@
 import {mapActions, mapState} from "vuex";
 
 export default {
+  data() {
+    return {
+      error: "",
+    };
+  },
   created() {
     this.route();
   },
@@ -30,6 +40,7 @@ export default {
         );
 
         const resultBD = await result.json();
+        this.error = resultBD.error;
         console.log(resultBD);
       } catch (error) {
         console.log("Error on route(): " + error);
